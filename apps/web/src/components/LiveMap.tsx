@@ -93,14 +93,37 @@ export default function LiveMap({ vehicles, drivers, trips, selectedVehicle, onV
     <div className="w-full h-full relative">
       <MapContainer
         center={mapCenter}
-        zoom={12}
+        zoom={11}
         style={{ height: '100%', width: '100%' }}
         className="rounded-lg"
+        zoomControl={true}
+        scrollWheelZoom={true}
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
+          maxZoom={18}
+          minZoom={3}
         />
+        
+        {/* Bengaluru City Center Marker */}
+        <Marker
+          position={mapCenter}
+          icon={L ? L.divIcon({
+            html: '<div style="background-color: #3B82F6; width: 25px; height: 25px; border-radius: 50%; border: 3px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; color: white; font-size: 12px; font-weight: bold;">🏙️</div>',
+            className: 'custom-marker',
+            iconSize: [25, 25],
+            iconAnchor: [12, 12],
+          }) : undefined}
+        >
+          <Popup>
+            <div className="p-2">
+              <h3 className="font-semibold text-sm mb-1">🏙️ Bengaluru City Center</h3>
+              <p className="text-xs text-gray-600">Karnataka, India</p>
+              <p className="text-xs text-gray-500 mt-1">12.9716°N, 77.5946°E</p>
+            </div>
+          </Popup>
+        </Marker>
         
         {/* Vehicle Markers */}
         {vehicles.map((vehicle) => (
@@ -166,6 +189,10 @@ export default function LiveMap({ vehicles, drivers, trips, selectedVehicle, onV
       <div className="absolute top-4 right-4 bg-white p-3 rounded-lg shadow-lg border">
         <h4 className="font-semibold text-sm mb-2">Legend</h4>
         <div className="space-y-1 text-xs">
+          <div className="flex items-center">
+            <div className="w-4 h-4 rounded-full bg-blue-500 mr-2 flex items-center justify-center text-white text-xs">🏙️</div>
+            <span>Bengaluru Center</span>
+          </div>
           <div className="flex items-center">
             <div className="w-3 h-3 rounded-full bg-green-500 mr-2"></div>
             <span>Available</span>

@@ -50,9 +50,18 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     // Check if user is already authenticated
     const checkAuth = async () => {
       try {
+        // Check if there's a token in localStorage first
+        const token = localStorage.getItem('auth_token');
+        if (!token) {
+          setLoading(false);
+          return;
+        }
+
         const response = await apiClient.getProfile();
         if (response.success) {
           setUser(response.data);
+        } else {
+          apiClient.clearToken();
         }
       } catch (error) {
         console.error('Auth check failed:', error);
