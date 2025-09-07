@@ -30,7 +30,7 @@ const app = express();
 const server = createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: process.env.CORS_ORIGIN || "http://localhost:3000",
+    origin: process.env.CORS_ORIGIN || ["http://localhost:3000", "http://localhost:3001"],
     methods: ["GET", "POST", "PUT", "DELETE"]
   }
 });
@@ -51,7 +51,7 @@ app.use(helmet());
 app.use(compression());
 app.use(limiter);
 app.use(cors({
-  origin: process.env.CORS_ORIGIN || "http://localhost:3000",
+  origin: process.env.CORS_ORIGIN || ["http://localhost:3000", "http://localhost:3001"],
   credentials: true
 }));
 app.use(morgan('combined'));

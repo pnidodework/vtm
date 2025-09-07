@@ -1,3 +1,4 @@
 .turbo/
 apps/backend/node_modules/
 node_modules/
+apps/web/.next/

@@ -1,15 +1,17 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { LoginForm } from '@/components/LoginForm';
 import { RegisterForm } from '@/components/RegisterForm';
 
 export default function AuthPage() {
   const [isLogin, setIsLogin] = useState(true);
+  const router = useRouter();
 
   const handleAuthSuccess = () => {
     // Redirect to dashboard after successful authentication
-    window.location.href = '/';
+    router.push('/');
   };
 
   return (

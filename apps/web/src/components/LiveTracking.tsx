@@ -5,6 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@repo
 import { Button } from '@repo/ui/button'
 import { MapPin, Car, User, Route, Navigation } from 'lucide-react'
 import { type Vehicle, type Driver, type Trip } from '@repo/database'
+import LiveMap from './LiveMap'
 
 interface LiveTrackingProps {
   vehicles: Vehicle[]
@@ -14,8 +15,8 @@ interface LiveTrackingProps {
 
 export default function LiveTracking({ vehicles, drivers, trips }: LiveTrackingProps) {
   const [selectedVehicle, setSelectedVehicle] = useState<Vehicle | null>(null)
-  const [selectedDriver, setSelectedDriver] = null
-  const [mapCenter, setMapCenter] = useState({ lat: 40.7128, lng: -74.0060 }) // Default to NYC
+  const [selectedDriver, setSelectedDriver] = useState<Driver | null>(null)
+  const [mapCenter, setMapCenter] = useState({ lat: 12.9716, lng: 77.5946 }) // Default to Bengaluru, Karnataka
   const [zoom, setZoom] = useState(10)
 
   // Mock location updates for demonstration
@@ -83,24 +84,13 @@ export default function LiveTracking({ vehicles, drivers, trips }: LiveTrackingP
               </CardDescription>
             </CardHeader>
             <CardContent className="p-0 h-full">
-              {/* Placeholder for map - in real implementation, use Leaflet or Google Maps */}
-              <div className="w-full h-full bg-gray-100 flex items-center justify-center">
-                <div className="text-center">
-                  <MapPin className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-                  <h3 className="text-lg font-medium text-gray-600 mb-2">Map Integration</h3>
-                  <p className="text-gray-500 text-sm">
-                    This would integrate with Leaflet or Google Maps API<br />
-                    to show real-time vehicle and driver locations
-                  </p>
-                  <div className="mt-4 p-4 bg-white rounded-lg border">
-                    <div className="text-sm text-gray-600 mb-2">Current Map Center:</div>
-                    <div className="font-mono text-xs">
-                      Lat: {mapCenter.lat.toFixed(4)}, Lng: {mapCenter.lng.toFixed(4)}
-                    </div>
-                    <div className="text-sm text-gray-600 mt-2">Zoom: {zoom}x</div>
-                  </div>
-                </div>
-              </div>
+              <LiveMap 
+                vehicles={vehicles}
+                drivers={drivers}
+                trips={trips}
+                selectedVehicle={selectedVehicle}
+                onVehicleSelect={(vehicle) => setSelectedVehicle(vehicle)}
+              />
             </CardContent>
           </Card>
         </div>
